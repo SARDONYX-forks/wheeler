@@ -43,7 +43,7 @@ jobs:
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11.5
         with:
-          doNotCache: true
+          doNotCache: false
 
       - name: Build
         uses: lukka/run-cmake@v10.8
@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4.6.0
         with:
           name: Wheeler
-          path: ${{ github.workspace }}/build/publish/SKSE/
+          path: ${{ github.workspace }}/build/vs2022-clang-cl/publish
       # - name: Release
       #   uses: ncipollo/release-action@v1.14.0
       #   with:
