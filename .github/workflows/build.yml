@@ -1,10 +1,5 @@
 # SPDX-FileCopyrightText: (C) 2018 Ryan-rsm-McKenzie
-# SPDX-FileCopyrightText: (C) 2010-2020 OTClient
 # SPDX-License-Identifier: MIT
-#
-# vcpkgGitCommitId calculation code is made available under the MIT License
-# ref: https://github.com/mehah/otclient/actions/runs/13703854793/workflow#L42
-#
 name: Build
 
 on:
@@ -45,22 +40,12 @@ jobs:
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1.13.0
 
-      # vcpkgGitCommitId calculation code is made available under the MIT License
-      # ref: https://github.com/mehah/otclient/actions/runs/13703854793/workflow#L42
-      - name: Restore artifacts and install vcpkg
-        id: vcpkg-step
-        run: |
-          $json=Get-Content vcpkg.json -Raw | ConvertFrom-Json
-          $vcpkgCommitId=$json.'builtin-baseline'
-          Write-Host "vcpkg commit ID: $vcpkgCommitId"
-          echo "vcpkgGitCommitId=$vcpkgCommitId" >> "$GITHUB_OUTPUT"
-
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11.5
         with:
-          vcpkgGitCommitId: ${{ steps.vcpkg-step.outputs.vcpkgGitCommitId }}
           doNotCache: true
 
+      - run: $env:VCPKG_BINARY_SOURCES="clear;files,\\remote\shared\vcpkg\binary-cache,read;files,D:\vcpkg\binary-cache,readwrite"
       - name: Build
         uses: lukka/run-cmake@v10.8
         with:
