@@ -8,15 +8,16 @@ namespace Hooks
 	namespace
 	{
 		////https://github.com/ahzaab/iEquipUtil/blob/master/src/BaseExtraListEX.cpp
-		
+
 		/// <summary>
-		/// Hooks any action that adds item to the player's inventory. 
+		/// Hooks any action that adds item to the player's inventory.
 		/// Ensures all added items that will potentially be a WheelItemMutable(weapon & armor) have an uniqueID attached to its extraDataList.
 		/// uniqueID is used to differentiate diffeent instances of a form in the player's inventory; more about it in WheelItemMutable.
 		/// </summary>
 		class OnChangePlayerInventory : public RE::PlayerCharacter
 		{
 		public:
+			inline void operator delete(void* a_ptr) { RE::free(a_ptr); }                                                       \
 			static void Install()
 			{
 				REL::Relocation<std::uintptr_t> vTable(RE::PlayerCharacter::VTABLE[0]);
@@ -98,7 +99,7 @@ namespace Hooks
 				if (!bo) {
 					return _PickUpObject(this, a_object, a_count, a_arg3, a_playSound);
 				}
-				
+
 				auto ft = bo->GetFormType();
 
 				if (a_count <= 0 || (ft != RE::FormType::Weapon && ft != RE::FormType::Armor)) {
@@ -192,7 +193,7 @@ namespace Hooks
 			}
 
 			Input::GetSingleton()->ProcessAndFilter(a_evns);
-			
+
 			_DispatchInputEvent(a_dispatcher, a_evns);
 		}
 		static inline REL::Relocation<decltype(DispatchInputEvent)> _DispatchInputEvent;

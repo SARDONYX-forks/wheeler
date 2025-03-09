@@ -1,19 +1,19 @@
-#include "UserInput/Input.h"
 #include "UserInput/Controls.h"
+#include "UserInput/Input.h"
 
 #include "Rendering/RenderManager.h"
 #include "Rendering/TextureManager.h"
 
 #include "Hooks.h"
 
+#include "Serialization/SerializationEntry.h"
+#include "Utilities/UniqueIDHandler.h"
 #include "Wheeler/WheelItems/WheelItemMutableManager.h"
 #include "Wheeler/Wheeler.h"
-#include "Utilities/UniqueIDHandler.h"
-#include "Serialization/SerializationEntry.h"
 
 #include "Config.h"
-#include "Texts.h"
 #include "ModCallbackEventHandler.h"
+#include "Texts.h"
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg)
 {
@@ -80,7 +80,6 @@ namespace
 std::string wstring2string(const std::wstring& wstr, UINT CodePage)
 
 {
-
 	std::string ret;
 
 	int len = WideCharToMultiByte(CodePage, 0, wstr.c_str(), (int)wstr.size(), NULL, 0, NULL, NULL);
@@ -90,9 +89,7 @@ std::string wstring2string(const std::wstring& wstr, UINT CodePage)
 	WideCharToMultiByte(CodePage, 0, wstr.c_str(), (int)wstr.size(), &ret[0], len, NULL, NULL);
 
 	return ret;
-
 }
-
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
@@ -120,17 +117,16 @@ extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	v.PluginVersion(Plugin::VERSION);
 	v.PluginName(Plugin::NAME);
 
-	v.UsesAddressLibrary(true);
+	v.UsesAddressLibrary();
 	v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST });
-	v.HasNoStructUse(true);
+	v.UsesNoStructs();
 
 	return v;
 }();
 
-
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
-	REL::Module::reset();  // Clib-NG bug workaround
+	// REL::Module::reset();  // Clib-NG bug workaround
 	//std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 	InitializeLog();
 	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
@@ -141,9 +137,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	if (!messaging->RegisterListener("SKSE", MessageHandler)) {
 		return false;
 	}
-	
-	onSKSEInit();
 
+	onSKSEInit();
 
 	return true;
 }

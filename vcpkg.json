@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "wheeler",
   "version": "1",
   "dependencies": [
@@ -11,11 +12,10 @@
     "nlohmann-json",
     "freetype",
     {
-      "name":  "imgui",
-      "features":  [
-                       "dx11-binding",
-                       "win32-binding"
-                   ]
-    }
+      "name": "imgui",
+      "features": ["dx11-binding", "win32-binding"]
+    },
+    "commonlibsse-ng",
+    "directxtk"
   ]
 }

@@ -44,9 +44,9 @@ namespace std
 #define RELOCATION_OFFSET(SE, AE) REL::VariantOffset(SE, AE, 0).offset()
 
 #include "Plugin.h"
+#include "imgui.h"
 #include <d3d11.h>
 #include <dxgi.h>
-#include "imgui.h"
 #define IM_PI 3.14159265358979323846f
 
 struct DrawArgs
@@ -58,3 +58,18 @@ struct DrawArgs
 	bool centerObject = true;
 };
 
+#ifndef INFO
+#	define INFO(...) spdlog::info(__VA_ARGS__)
+#endif
+
+#ifdef ERROR
+#	undef ERROR
+#	define ERROR(...) spdlog::error(__VA_ARGS__)
+#else
+#	define ERROR(...) spdlog::error(__VA_ARGS__)
+#endif
+
+#ifndef ASSERT
+#	include <cassert>
+#	define ASSERT(x) assert(x)
+#endif

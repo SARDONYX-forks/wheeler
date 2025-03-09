@@ -1,34 +1,49 @@
 {
+  "version": 3,
   "configurePresets": [
     {
-      "binaryDir": "${sourceDir}/build",
+      "name": "cmake-dev",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": {
           "type": "STRING",
           "value": "Debug"
-        }
+        },
+        "CMAKE_CXX_STANDARD": "20"
       },
       "errors": {
         "deprecated": true
       },
-      "hidden": true,
-      "name": "cmake-dev",
       "warnings": {
         "deprecated": true,
         "dev": true
       }
     },
     {
+      "name": "cmake-release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": {
+          "type": "STRING",
+          "value": "Release"
+        }
+      },
+      "inherits": ["cmake-dev"]
+    },
+    {
+      "name": "vcpkg",
+      "hidden": true,
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "STRING",
           "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         }
-      },
-      "hidden": true,
-      "name": "vcpkg"
+      }
     },
     {
+      "name": "windows",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_MSVC_RUNTIME_LIBRARY": {
           "type": "STRING",
@@ -38,11 +53,13 @@
           "type": "STRING",
           "value": "x64-windows-static-md"
         }
-      },
-      "hidden": true,
-      "name": "windows"
+      }
     },
     {
+      "name": "vs2022-windows",
+      "binaryDir": "${sourceDir}/build/vs2022-windows",
+      "generator": "Visual Studio 17 2022",
+      "inherits": ["cmake-release", "vcpkg", "windows"],
       "architecture": {
         "strategy": "set",
         "value": "x64"
@@ -50,15 +67,33 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "/EHsc /MP /W0"
       },
-      "generator": "Visual Studio 17 2022",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows"
-      ],
-      "name": "vs2022-windows",
       "toolset": "v143"
+    },
+    {
+      "name": "vs2022-clang-cl",
+      "binaryDir": "${sourceDir}/build/vs2022-clang-cl",
+      "generator": "Ninja",
+      "inherits": ["cmake-dev", "vcpkg", "windows"],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "environment": {
+        "CC": "clang-cl",
+        "CXX": "clang-cl",
+        "PROJECT_COMPILER_FLAGS": "/permissive- /EHsc /W4 /WX -xc++ -Wno-overloaded-virtual -Wno-delete-non-abstract-non-virtual-dtor -Wno-inconsistent-missing-override -Wno-reinterpret-base-class -D__cpp_lib_char8_t -D__cpp_lib_format"
+      }
     }
   ],
-  "version": 3
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "vs2022-clang-cl"
+    },
+    {
+      "name": "release",
+      "configurePreset": "vs2022-windows"
+    }
+  ]
 }

@@ -1,0 +1,7 @@
+CompileFlags:
+  CompilationDatabase: "build/vs2022-clang-cl"
+  Add:
+    - -pedantic
+    - -std=c++20
+    - -Werror -Wall -Wextra -Weffc++ -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self -Wconversion -Wno-sign-conversion
+    - -Wundefined-inline
