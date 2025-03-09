@@ -43,9 +43,9 @@ jobs:
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11.5
         with:
+          vcpkgGitCommitId: cc288af760054fa489574bd8e22d05aa8fa01e5c
           doNotCache: true
 
-      - run: $env:VCPKG_BINARY_SOURCES="clear;files,\\remote\shared\vcpkg\binary-cache,read;files,D:\vcpkg\binary-cache,readwrite"
       - name: Build
         uses: lukka/run-cmake@v10.8
         with:
