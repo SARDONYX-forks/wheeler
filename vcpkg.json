@@ -3,19 +3,25 @@
   "name": "wheeler",
   "version": "1",
   "dependencies": [
+    "commonlibsse-ng",
     "fast-cpp-csv-parser",
+    "freetype",
+    "nlohmann-json",
+    "rapidcsv",
     "rsm-binary-io",
     "simpleini",
     "spdlog",
-    "xbyak",
-    "rapidcsv",
-    "nlohmann-json",
-    "freetype",
-    {
-      "name": "imgui",
-      "features": ["dx11-binding", "win32-binding"]
-    },
-    "commonlibsse-ng",
-    "directxtk"
+    "xbyak"
+  ],
+  "overrides": [
+    { "name": "commonlibsse-ng", "version": "3.6.0" },
+    { "name": "fast-cpp-csv-parser", "version": "2021-01-03" },
+    { "name": "freetype", "version": "2.12.1" },
+    { "name": "nlohmann-json", "version": "3.11.2" },
+    { "name": "rapidcsv", "version": "8.64" },
+    { "name": "rsm-binary-io", "version": "2.0.5" },
+    { "name": "simpleini", "version": "4.19" },
+    { "name": "spdlog", "version": "1.11.0" },
+    { "name": "xbyak", "version": "6.60" }
   ]
 }
