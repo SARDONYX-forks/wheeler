@@ -21,7 +21,6 @@
     { "name": "rapidcsv", "version": "8.64" },
     { "name": "rsm-binary-io", "version": "2.0.5" },
     { "name": "simpleini", "version": "4.19" },
-    { "name": "spdlog", "version": "1.11.0" },
     { "name": "xbyak", "version": "6.60" }
   ]
 }

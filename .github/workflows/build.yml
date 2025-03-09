@@ -4,6 +4,7 @@ name: Build
 
 on:
   push:
+    branches: ["main"]
     paths:
       - "src/**"
       - "CMakeLists.txt"
@@ -43,7 +44,7 @@ jobs:
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11.5
         with:
-          doNotCache: false
+          doNotCache: true
 
       - name: Build
         uses: lukka/run-cmake@v10.8
