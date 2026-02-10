@@ -44,9 +44,9 @@ namespace Utils
 			//
 			using func_t = void (RE::ActorEquipManager::*)(RE::Actor*, RE::SpellItem*, int);
 
-			REL::Relocation<func_t> func{ RELOCATION_ID(37947, 38903) };  
+			REL::Relocation<func_t> func{ RELOCATION_ID(37947, 38903) };
 
-		
+
 			return func(aeMan, pc, spell, hand);
 		}
 
@@ -58,7 +58,7 @@ namespace Utils
 			}
 
 			using func_t = void (RE::ActorEquipManager::*)(RE::Actor*, RE::TESShout*);
-			REL::Relocation<func_t> func{ RELOCATION_ID(37948, 38904) }; 
+			REL::Relocation<func_t> func{ RELOCATION_ID(37948, 38904) };
 
 			return func(aeMan, pc, shout);
 		}
@@ -121,7 +121,7 @@ namespace Utils
 		}
 
 		/// <summary>
-		/// Gets all extradatalists of one inventory entry. 
+		/// Gets all extradatalists of one inventory entry.
 		/// Inventory entries in Skyrim is designed as follows:
 		/// Each entry has its base information stored directly in its form. However, once the entry is modified
 		/// by player(e.g. smithing, enchanting, poisoning), the item the entry is associated with gains an ExtraData.
@@ -180,8 +180,8 @@ namespace Utils
 			if (lhs && lhs->GetObject() && lhs->GetObject()->GetFormID() == a_weapon->GetFormID()) {
 				if (lhs->extraLists) {
 					for (auto* extraList : *lhs->extraLists) {
-						if (!extraList->HasType(RE::ExtraDataType::kEnchantment) 
-							&& !extraList->HasType(RE::ExtraDataType::kHealth) 
+						if (!extraList->HasType(RE::ExtraDataType::kEnchantment)
+							&& !extraList->HasType(RE::ExtraDataType::kHealth)
 							&& !extraList->HasType(RE::ExtraDataType::kPoison)
 							) {
 							lhsEquippedBase = true;
@@ -202,8 +202,8 @@ namespace Utils
 #endif  // !UNICODE
 				if (rhs->extraLists) {
 					for (auto* extraList : *rhs->extraLists) {
-						if (!extraList->HasType(RE::ExtraDataType::kEnchantment) 
-							&& !extraList->HasType(RE::ExtraDataType::kHealth) 
+						if (!extraList->HasType(RE::ExtraDataType::kEnchantment)
+							&& !extraList->HasType(RE::ExtraDataType::kHealth)
 							&& !extraList->HasType(RE::ExtraDataType::kPoison)) {
 							rhsEquippedBase = true;
 						}
@@ -237,7 +237,7 @@ namespace Utils
 			if (!a_invMenu) {
 				return nullptr;
 			}
-			RE::ItemList* il = a_invMenu->itemList;
+			RE::ItemList* il = a_invMenu->GetRuntimeData().itemList;
 			if (!il) {
 				return nullptr;
 			}

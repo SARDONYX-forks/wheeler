@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "UserInput/Controls.h"
 #include "Wheeler/Wheeler.h"
+
 EventResult ModCallbackEventHandler::ProcessEvent(const SKSE::ModCallbackEvent* a_event, RE::BSTEventSource<SKSE::ModCallbackEvent>* a_eventSource)
 {
 	if (!a_event) {

@@ -10,7 +10,7 @@ WheelItemAmmo::WheelItemAmmo(RE::TESAmmo* a_ammo)
 	this->_texture = Texture::GetIconImage(Texture::icon_image_type::arrow, a_ammo);
 	this->_stat_texture = Texture::GetIconImage(Texture::icon_image_type::weapon_damage, nullptr);
 	RE::BSString descriptionBuf = "";
-	a_ammo->GetDescription(descriptionBuf, nullptr);
+	a_ammo->AsDescriptionForm()->GetDescription(descriptionBuf, nullptr);
 	this->_description = std::string(descriptionBuf.c_str());
 }
 
@@ -37,7 +37,7 @@ void WheelItemAmmo::DrawHighlight(ImVec2 a_center, RE::TESObjectREFR::InventoryI
 	} else {
 		ammoDamage = this->_ammo->data.damage;
 	}
-	
+
 	drawItemHighlightStatIconAndValue(a_center, this->_stat_texture, ammoDamage, a_drawArgs);
 }
 

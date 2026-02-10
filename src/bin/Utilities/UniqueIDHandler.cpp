@@ -4,7 +4,7 @@
 inline static RE::ExtraDataList* InitExtraDataList(RE::ExtraDataList* a_list)
 {
 	using func_t = RE::ExtraDataList* (*)(RE::ExtraDataList*);
-	REL::Relocation<func_t> func{ RELOCATION_ID(11437, 11583) };  
+	REL::Relocation<func_t> func{ RELOCATION_ID(11437, 11583) };
 	return func(a_list);
 }
 
@@ -20,7 +20,7 @@ void UniqueIDHandler::EnsureXListUniquenessInPcInventory()
 			auto rawCount = data.first;
 			auto& entryData = data.second;
 
-			#undef GetObject
+#undef GetObject
 			//过滤非武器或非护甲
 			auto ft = entryData.get()->GetObject()->GetFormType();
 			if (ft != RE::FormType::Armor && ft != RE::FormType::Weapon) {
@@ -49,7 +49,7 @@ void UniqueIDHandler::EnsureXListUniquenessInPcInventory()
 			}
 
 			//如果还有未处理的数量，移除这些物品
-			RE::ExtraDataList* xList = nullptr;// extra data list to be added
+			RE::ExtraDataList* xList = nullptr;  // extra data list to be added
 			while (rawCount-- > 0) {
 				// workaround: directly adding the extradatalist doesn't work. instead we remove the item with the removal target
 				// set to pc, and the hook on addItem will append the extraDatalist.
@@ -60,7 +60,6 @@ void UniqueIDHandler::EnsureXListUniquenessInPcInventory()
 		logger::error("Error occured when scanning player inventory extraDataList: {}", exception.what());
 	}
 }
-
 
 void UniqueIDHandler::EnsureXListUniqueness(RE::ExtraDataList*& a_extraList)
 {

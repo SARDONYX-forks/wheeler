@@ -1,0 +1,65 @@
+# SPDX-FileCopyrightText: (C) 2018 Ryan-rsm-McKenzie
+# SPDX-License-Identifier: MIT
+name: Build
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - "CMakeLists.txt"
+      - "CMakePresets.json"
+      - "vcpkg.json"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-vcpkg:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      # # If we don't have this setting on our local PC, we will get an error during the cloning process.
+      # - name: Increase buffer capacity for clone
+      #   run: git config --global http.postBuffer 524288000
+      # # NOTE: Manual for speed emphasis as it is not certain if the checkout does shallow cloning.
+      # # https://github.com/actions/checkout/blob/main/src/git-source-provider.ts#L244
+      # - name: Clone openvr
+      #   run: git submodule update --init --depth=1
+
+      # Install latest CMake and Ninja.
+      - uses: lukka/get-cmake@latest
+        with:
+          # This designation is important.
+          # 3.31.5: ver. policy error
+          # 3.19.8: Error with missing src dir or deps lib (e.g. spdlog)
+          cmakeVersion: 3.22
+
+      - name: Setup MSVC Environment
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11.5
+        with:
+          doNotCache: true
+
+      - name: Build
+        uses: lukka/run-cmake@v10.8
+        with:
+          cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
+          configurePreset: vs2022-clang-cl
+          buildPreset: debug
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: Wheeler
+          path: ${{ github.workspace }}/build/vs2022-clang-cl/publish
+      # - name: Release
+      #   uses: ncipollo/release-action@v1.14.0
+      #   with:
+      #     allowUpdates: true
+      #     artifacts: |
